@@ -7,10 +7,10 @@ function GoodsItem(props) {
         displayDescription,
         price,
         displayAssets,
+        addToBasket,
 
     } = props;
 
-    console.log(displayAssets.full_background);
     return (
         <div className="card" id={mainId}>
             <div className="card-image">
@@ -20,7 +20,7 @@ function GoodsItem(props) {
                 <span className="card-title">{displayName}</span>   
                 <p>{displayDescription}</p>
                 <div className="card-action">
-                    <button className="btn">Купить</button>
+                    <button className="btn" onClick={() => addToBasket({mainId, displayName, price})}>Купить</button>
                     <span className="right" style={{fontSize: '1.8rem'}}>{price.finalPrice} руб.</span>
                 </div>
             </div>
@@ -35,6 +35,7 @@ GoodsItem.propTypes = {
     displayDescription: PropTypes.string,
     price: PropTypes.object,
     displayAssets: PropTypes.array,
+    addToBasket: PropTypes.func,
 }
 
 export default GoodsItem;
