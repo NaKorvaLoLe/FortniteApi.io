@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import Preloader from "./Preloader.jsx";
 import GoodsList from "./GoodsList.jsx";
 import Cart from "./Cart.jsx";
+import BasketList from "./BasketList.jsx";
 import { API_KEY,  API_URL} from '../config.js'
 
 function Shop(){
     const [goods, setGoods] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [order, setOrder] = useState([])
+    const [order, setOrder] = useState([]);
+    const [isBasketShow,  setIsBasketShow] = useState(false)
    
     
-
     const addToBasket = (item) => {
         const itemIndex = order.findIndex(
             orderItem => orderItem.mainId === item.mainId);
@@ -38,7 +39,10 @@ function Shop(){
             setOrder(newOrder)
         }
     }
-    console.log(order);  
+
+    const handleBasketShow = () => {
+        setIsBasketShow(!isBasketShow)
+    }
     
     useEffect(function getGoods(){
         fetch(API_URL, {
@@ -52,9 +56,12 @@ function Shop(){
 
     return(
         <main className="container content">
-            <Cart quantity={order.length}/>
+            <Cart quantity={order.length} handleBasketShow={handleBasketShow}/>
             { 
                 loading ? <Preloader/> : <GoodsList goods={goods} addToBasket={addToBasket}/>
+            }
+            {
+                isBasketShow  && <BasketList order={order} handleBasketShow={handleBasketShow}/>
             }
         </main>
     )
