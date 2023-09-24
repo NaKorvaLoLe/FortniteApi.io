@@ -6,6 +6,9 @@ function BasketItem( props ) {
         displayName,
         price,
         quantity,
+        removeFromBasket,
+        incQuantity,
+        decQuantity,
     } = props;
     console.log(mainId, 
         displayName,
@@ -13,8 +16,11 @@ function BasketItem( props ) {
         quantity,);
     return(
         <li className="collection-item basket-delete">
-            {displayName} x {quantity} = {price.finalPrice}
-            <span  className="secondary-content">
+            {displayName} x 
+            <i className="material-icons basket-quantity" onClick={() => decQuantity(mainId)}>remove</i> {quantity}  
+            <i className="material-icons basket-quantity" onClick={() => incQuantity(mainId)}>add</i> = {price.finalPrice * quantity } руб.
+
+            <span  className="secondary-content" onClick={() => removeFromBasket(mainId)}>
                 <i className="material-icons">close</i>
             </span>
         </li>
@@ -27,6 +33,10 @@ BasketItem.propTypes = {
     displayName: PropTypes.string,
     price: PropTypes.object,
     quantity: PropTypes.number,
+    removeFromBasket: PropTypes.func,
+    incQuantity: PropTypes.func,
+    decQuantity: PropTypes.func,
+
 }
 
 export default BasketItem;

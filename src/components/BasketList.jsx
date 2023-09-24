@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 
 
 function BasketList (props) {
-    const {order = [], handleBasketShow} = props;
+    const {
+            order = [], 
+            handleBasketShow, 
+            removeFromBasket,
+            incQuantity,
+            decQuantity, 
+        } = props;
     const totalPrice = order.reduce((sum, el) => {
         return sum + el.price.finalPrice * el.quantity
     }, 0)
@@ -13,7 +19,13 @@ function BasketList (props) {
             <li className="collection-item active">Корзина</li>
             {
                 order.length ? order.map(item => (
-                    <BasketItem key={item.mainId} {...item}/>
+                    <BasketItem 
+                        key={item.mainId} 
+                        removeFromBasket={removeFromBasket}
+                        incQuantity={incQuantity}
+                        decQuantity={decQuantity}
+                        {...item}
+                    />
                 )) : <li className="collection-item">Корзина пуста</li>
             }
             <li className="collection-item active">
@@ -28,5 +40,8 @@ function BasketList (props) {
 BasketList.propTypes = {
     order: PropTypes.array,
     handleBasketShow: PropTypes.func,
+    removeFromBasket: PropTypes.func,
+    incQuantity: PropTypes.func,
+    decQuantity: PropTypes.func,
 }
 export default BasketList;

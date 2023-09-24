@@ -40,6 +40,42 @@ function Shop(){
         }
     }
 
+
+    const removeFromBasket = (itemId) => {
+        const newOrder = order.filter(el => el.mainId !== itemId)
+        setOrder(newOrder)
+    }
+
+    const incQuantity = (itemId) => {
+        const newOrder = order.map(el => {
+            if(el.mainId === itemId){
+                const newQuantity = el.quantity + 1;
+                return {
+                    ...el,
+                    quantity: newQuantity
+                }
+            } else {
+                return el;
+            }
+        })
+        setOrder(newOrder)
+    }
+
+    const decQuantity = (itemId) => {
+        const newOrder = order.map(el => {
+            if(el.mainId === itemId){
+                const newQuantity = el.quantity - 1;
+                return {
+                    ...el,
+                    quantity: newQuantity >= 0 ? newQuantity : 0,
+                }
+            } else {
+                return el;
+            }
+        })
+        setOrder(newOrder)
+    }
+
     const handleBasketShow = () => {
         setIsBasketShow(!isBasketShow)
     }
@@ -56,13 +92,22 @@ function Shop(){
 
     return(
         <main className="container content">
-            <Cart quantity={order.length} handleBasketShow={handleBasketShow}/>
+            <Cart 
+                quantity={order.length} 
+                handleBasketShow={handleBasketShow} 
+            />
             { 
                 loading ? <Preloader/> : <GoodsList goods={goods} addToBasket={addToBasket}/>
             }
-            {
-                isBasketShow  && <BasketList order={order} handleBasketShow={handleBasketShow}/>
-            }
+            { isBasketShow  && (
+                <BasketList 
+                    order={order} 
+                    handleBasketShow={handleBasketShow}
+                    removeFromBasket={removeFromBasket}
+                    incQuantity={incQuantity}
+                    decQuantity={decQuantity}
+                />
+            )}
         </main>
     )
 }
